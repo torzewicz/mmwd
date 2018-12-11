@@ -4,8 +4,7 @@ from Distance import Distance
 gMaps = None
 while gMaps is None:
     try:
-        key = input('Provide Google key: ')
-        gMaps = googlemaps.Client(key=key)
+        gMaps = googlemaps.Client(key=input('Provide Google key: '))
     except:
         print("Please provide valid Google key.")
 
