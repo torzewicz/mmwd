@@ -2,9 +2,10 @@ import json
 
 
 class Distance:
-    def __init__(self, start_point, end_point, gMaps):
-        modes = ['driving', 'walking', 'bicycling', 'transit']
+    def __init__(self, start_point, end_point, modes, gMaps):
         attributes = ['distance', 'duration']
+        self.start = start_point
+        self.end = end_point
         for i in modes:
             for a in attributes:
                 try:
@@ -20,4 +21,4 @@ class Distance:
                             )
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=False, indent=4)

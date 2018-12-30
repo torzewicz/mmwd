@@ -1,14 +1,72 @@
 import googlemaps
 from Distance import Distance
+from Place import Place
 
 gMaps = None
+places = []
+enough = False
+available_modes = ['driving', 'walking', 'bicycling', 'transit']
+wanted_modes = []
+hours_per_day = None
+number_of_days = None
+max_amount_of_money = None
+time_value = None
+
 while gMaps is None:
     try:
         gMaps = googlemaps.Client(key=input('Provide Google key: '))
     except:
         print("Please provide valid Google key.")
 
-start = input('Type starting point: ')
-end = input('Type destination: ')
+house = input('Type starting (house) point: ')
 
-print(Distance(start, end, gMaps).to_json())
+for mode in available_modes:
+    if input("Allow " + mode + " (yes/no)?") == 'yes':
+        wanted_modes.append(mode)
+
+while hours_per_day is None:
+    hours = input("Provide maximum hours per day")
+    if hours.isdigit() and 0 < int(hours) <= 24:
+        hours_per_day = int(hours)
+    else:
+        print("Wrong value")
+
+while number_of_days is None:
+    days = input("Provide maximum number of days")
+    if days.isdigit() and 0 < int(days):
+        number_of_days = int(days)
+    else:
+        print("Wrong value")
+
+
+while max_amount_of_money is None:
+    money = input("Provide maximum amount of money to spend")
+    if money.isdigit() and 0 < int(money):
+        max_amount_of_money = int(money)
+        currency = input("Type currency")
+    else:
+        print("Wrong value")
+
+while time_value is None:
+    value = input("How much you value your time in: " + currency)
+    if value.isdigit() and 0 < int(value):
+        time_value = int(value)
+    else:
+        print("Wrong value")
+
+while not enough:
+    place = input('Type destination: ')
+    priority = input('Priority (1 - 10): ')
+    if place == 'a':
+        enough = True
+    elif not (priority.isdigit() and 1 <= int(priority) <= 10):
+        print("Wrong priority!")
+    else:
+        places.append(Place(place, priority))
+
+
+for place in places:
+    print(place.to_json())
+
+for place in places:
+    print(Distance(house, place.name, wanted_modes, gMaps).to_json())
