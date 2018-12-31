@@ -6,6 +6,7 @@ class Distance:
         attributes = ['distance', 'duration']
         self.start = start_point
         self.end = end_point
+        self.custom_length = gMaps.distance_matrix(start_point, end_point)['rows'][0]['elements'][0]['distance']['text']
         for i in modes:
             for a in attributes:
                 try:
