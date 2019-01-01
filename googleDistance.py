@@ -5,9 +5,9 @@ from TabuSearch import TabuSearch
 import time
 
 gMaps = None
-places = [Place('Krakow', '2'), Place('Warszawa', '3'), Place('Gdansk', '6'), Place('Szczecin', '8'), Place('Wroclaw', '3')]
+places = [Place('Krakow', '2'), Place('Warszawa', '3'), Place('Gdansk', '6')]
 enough = False
-available_modes = ['driving', 'walking', 'bicycling', 'transit']
+available_modes = ['walking', 'transit']
 # wanted_modes = []
 # hours_per_day = None
 # number_of_days = None
@@ -68,7 +68,7 @@ while gMaps is None:
 #         if next_place != 'yes':
 #             enough = True
 
-user = User('Krosno', available_modes, '8', '2', 200, '3', 'PLN', places)
+user = User('Krosno', available_modes, '8', '2', '200', '6', 'PLN', places)
 
 # print(user.to_json())
 tabu = TabuSearch(user, places, gMaps)
@@ -77,7 +77,13 @@ start_time = time.time()
 tabu.perform_search()
 end_time = time.time() - start_time
 
-for place in tabu.places_sequence:
+for place in tabu.places_sequence_distance_objects:
     print(place.to_json())
+    print(tabu.find_best_time_and_its_distance(place))
+
+print(tabu.places_sequence_names)
+
+
+print(tabu.calculate_function())
 
 print(end_time)
