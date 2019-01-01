@@ -5,9 +5,9 @@ class Utils:
     @staticmethod
     def get_length_without_measure(string_value):
         if "km" in string_value:
-            value = int(string_value[:string_value.rfind('k')]) * 1000
+            value = float(string_value[:string_value.rfind('k')]) * 1000
         else:
-            value = int(string_value[:string_value.rfind('m')])
+            value = float(string_value[:string_value.rfind('m')])
         return value
 
     @staticmethod
@@ -23,5 +23,5 @@ class Utils:
             else:
                 time = int(string_value[:(string_value.rfind('h') - 1)]) * 60
         else:
-            time = int(string_value[(string_value.rfind('m') - 4):(string_value.rfind('m') - 1)])
+            time = int(string_value[:(string_value.rfind('m') - 1)])
         return time
