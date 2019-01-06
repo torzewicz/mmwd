@@ -8,11 +8,14 @@ class Distance:
         self.end = end_point
         self.custom_length = gMaps.distance_matrix(start_point, end_point)['rows'][0]['elements'][0]['distance']['text']
         for i in modes:
+            try:
+                mode_data = gMaps.directions(start_point, end_point, mode=i)[0]['legs'][0]
+            except:
+                mode_data = "No data"
+                current_mode = "No data"
             for a in attributes:
-                try:
-                    current_mode = gMaps.directions(start_point, end_point, mode=i)[0]['legs'][0][a]['text']
-                except:
-                    current_mode = "No data"
+                if mode_data != "No data":
+                    current_mode = mode_data[a]['text']
                 if hasattr(self, i):
                     getattr(self, i)[a] = current_mode
                 else:

@@ -5,9 +5,9 @@ from TabuSearch import TabuSearch
 import time
 
 gMaps = None
-places = [Place('Krakow', '2'), Place('Warszawa', '3'), Place('Gdansk', '6')]
+places = [Place('Krakow Wawel', '2'), Place('Krakow AGH', '3'), Place('Krakow Jubilat', '6'), Place('Krakow Muzeum Narodowe', '6'), Place('Krakow Rondo Matecznego', '8'), Place('Krakow Kosciol Mariacki', '7'), Place('Krakow Rondo Grzegorzeckie', '8'), Place('Krakow Plac Inwalidow', '7')]
 enough = False
-available_modes = ['driving', 'walking', 'bicycling' 'transit']
+available_modes = ['walking', 'transit']
 # wanted_modes = []
 # hours_per_day = None
 # number_of_days = None
@@ -68,10 +68,10 @@ while gMaps is None:
 #         if next_place != 'yes':
 #             enough = True
 
-user = User('Krakow Lubicz', available_modes, '8', '2', '200', '6', 'PLN', places)
+user = User('Krakow Lubicz', available_modes, '4', '2', '4', '6', places, '1')
 
 # print(user.to_json())
-tabu = TabuSearch(user, places, gMaps)
+tabu = TabuSearch(user, places, gMaps, 2, 3000)
 
 start_time = time.time()
 tabu.perform_search()
@@ -82,9 +82,11 @@ for place in tabu.places_sequence_distance_objects:
     # print(tabu.get_time_and_distance_for_mode(place))
 
 
-print(tabu.calculate_function(tabu.places_sequence_distance_objects))
+# print(tabu.calculate_function(tabu.places_sequence_distance_objects))
 print(tabu.places_sequence_names)
 print(tabu.final_combination)
+print(tabu.final_cost)
+print(tabu.tabu_list)
 
 
 print(end_time)
