@@ -5,14 +5,15 @@ from TabuSearch import TabuSearch
 import time
 
 gMaps = None
-places = [Place('Krakow Wawel', '2'), Place('Krakow AGH', '3'), Place('Krakow Jubilat', '6'), Place('Krakow Muzeum Narodowe', '6'), Place('Krakow Rondo Matecznego', '8'), Place('Krakow Kosciol Mariacki', '7'), Place('Krakow Rondo Grzegorzeckie', '8'), Place('Krakow Plac Inwalidow', '7')]
+# places = []
+places = [Place('New York Manhattan', '3', '1'), Place('New York Queens', '6', '1'), Place('New York Bronx', '6', '1'), Place('New York Kennedy Airport', '8', '1'), Place('New York Rikers Island', '7', '1')]
 enough = False
-available_modes = ['walking', 'transit']
-# wanted_modes = []
-# hours_per_day = None
-# number_of_days = None
-# max_amount_of_money = None
-# time_value = None
+available_modes = ['walking', 'transit', 'bicycling', 'driving']
+wanted_modes = []
+hours_per_day = None
+number_of_days = None
+max_amount_of_money = None
+time_value = None
 
 while gMaps is None:
     try:
@@ -20,13 +21,13 @@ while gMaps is None:
     except:
         print("Please provide valid Google key.")
 
-
+print("Miejsc: " +  str(len(places)))
 # house = input('Type starting (house) point: ')
-
+#
 # for mode in available_modes:
 #     if input("Allow " + mode + " (yes/no)? ") == 'yes':
 #         wanted_modes.append(mode)
-
+#
 # while hours_per_day is None:
 #     hours = input("Provide maximum hours per day ")
 #     if hours.isdigit() and 0 < int(hours) <= 24:
@@ -56,29 +57,31 @@ while gMaps is None:
 #         time_value = int(value)
 #     else:
 #         print("Wrong value")
-
+#
 # while not enough:
 #     place = input('Type destination: ')
 #     priority = input('Priority (1 - 10): ')
+#     time_there = input('Time there (in hours): ')
 #     if not (priority.isdigit() and 1 <= int(priority) <= 10):
 #         print("Wrong priority!")
 #     else:
-#         places.append(Place(place, priority))
+#         places.append(Place(place, priority, time_there))
 #         next_place = input("Add next place (yes/no)? ")
 #         if next_place != 'yes':
 #             enough = True
 
-user = User('Krakow Lubicz', available_modes, '4', '2', '4', '6', places, '1')
+user = User('New York Brooklyn', available_modes, '8', '3', '300', '6', places)
+# user = User(house, wanted_modes, hours_per_day, number_of_days, max_amount_of_money, time_value, places, '1')
 
 # print(user.to_json())
-tabu = TabuSearch(user, places, gMaps, 2, 3000)
+tabu = TabuSearch(user, places, gMaps, 60, 2000, 150)
 
 start_time = time.time()
 tabu.perform_search()
 end_time = time.time() - start_time
 
-for place in tabu.places_sequence_distance_objects:
-    print(place.to_json())
+# for place in tabu.places_sequence_distance_objects:
+#     print(place.to_json())
     # print(tabu.get_time_and_distance_for_mode(place))
 
 
@@ -86,7 +89,9 @@ for place in tabu.places_sequence_distance_objects:
 print(tabu.places_sequence_names)
 print(tabu.final_combination)
 print(tabu.final_cost)
-print(tabu.tabu_list)
+# print(tabu.tabu_list)
+print(tabu.final_time)
+print(tabu.final_function_value)
 
 
-print(end_time)
+# print(end_time)

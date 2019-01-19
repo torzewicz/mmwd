@@ -53,20 +53,10 @@ def get_transport_value(mode):
     value = {
         'driving': 1,
         'walking': 0.5,
-        'bicycling': 3.5,
-        'transit': 3
+        'bicycling': 1.5,
+        'transit': 2
     }
     return value.get(mode)
-
-
-def get_random_neighborhood(best_candidate):
-    neighborhood = []
-    for i in range(0, randint(1, len(best_candidate))):
-        new_list = best_candidate.copy()
-        a, b = randint(1, len(best_candidate) - 1), randint(1, len(best_candidate) - 1)
-        new_list[a], new_list[b] = new_list[b], new_list[a]
-        neighborhood.append(new_list)
-    return neighborhood
 
 
 def get_random_index(max_index):
