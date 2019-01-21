@@ -147,8 +147,7 @@ class TabuSearch:
             if iterator >= self.max_till_end:
                 ready_to_end = True
                 if function_for_best_solution['final_cost'] > float(self.user.max_amount_of_money) or function_for_best_solution['final_time'] > float(self.user.hours_per_day) * 60 * float(self.user.number_of_days):
-                    print("Usuwanko")
-                    print()
+                    print("Deleting place from list")
                     found_first_item = False
                     index = 0
                     while not found_first_item:
@@ -162,7 +161,7 @@ class TabuSearch:
                             minimum_priority = self.places[i]
                     best_candidate.remove(minimum_priority.name)
                     if not self.should_fulfill_the_condition(best_candidate, function_for_best_candidate):
-                        print("Nie spełnia wymagań, wywalam dom")
+                        print("Solution does not fulfill requirements, deleting house")
                         for i in range(len(best_candidate) - 1):
                             if best_candidate[i] == self.user.house and i != 0:
                                 best_candidate.pop(i)
@@ -175,11 +174,9 @@ class TabuSearch:
                         print("Could not find solution for provided parameters")
                         wrong_solution = True
 
-                if function_for_best_solution['final_time'] > float(self.user.hours_per_day) * 60 and should_add_extra_house:
+                if function_for_best_solution['final_time'] > float(self.user.hours_per_day) * 60 and should_add_extra_house and not wrong_solution:
                     extra_houses = math.floor(function_for_best_solution['final_time']/(float(self.user.hours_per_day) * 60))
-                    print("Dodam domow: ")
-                    print(extra_houses)
-                    print()
+                    print("Adding returning to house " + extra_houses + " times")
                     is_correct = False
                     while not is_correct:
                         new_list = best_candidate.copy()
@@ -199,7 +196,7 @@ class TabuSearch:
                     should_add_extra_house = False
                     ready_to_end = False
 
-                if ready_to_end:
+                if ready_to_end or wrong_solution:
                     print()
                     print("Koniec")
                     print()
@@ -217,7 +214,6 @@ class TabuSearch:
 
         else:
             self.places_sequence_names = None
-            self.sequence_names = None
             self.places_sequence_distance_objects = None
             self.tabu_list = None
             self.final_combination = None
